@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "compliance-copilot"
+version = "0.1.0"
+description = "Local RAG assistant answering GDPR and AI Act questions in French, always citing the source article."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+# Dependencies are pinned in requirements.txt.
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
