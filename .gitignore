@@ -218,3 +218,12 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# --- Compliance copilot ---
+# Downloaded sources, processed articles and indexes (rebuilt by scripts)
+data/
+# Vector database files
+chroma_db/
+*.sqlite3
+*.faiss
+*.index

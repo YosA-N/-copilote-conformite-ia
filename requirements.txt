@@ -1,0 +1,5 @@
+python-dotenv==1.2.4
+pytest==9.1.1
+
+# Install this project's own package (src/compliance_copilot) in editable mode.
+-e .
