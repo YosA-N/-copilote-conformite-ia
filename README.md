@@ -2,14 +2,14 @@
 
 Assistant open source qui répond **en français** aux questions des PME et des associations sur le **RGPD** et l'**AI Act**, en **citant toujours l'article source**. Tout tourne **en local** et gratuitement, grâce à [Ollama](https://ollama.com).
 
-**Statut :** projet en construction. Les textes de loi sont téléchargés et découpés ; le copilote ne répond pas encore aux questions.
+**Statut :** projet en construction. Les textes de loi sont téléchargés, découpés et indexés : on peut chercher les passages les plus proches d'une question. Le copilote ne rédige pas encore de réponse.
 
 > Ce copilote aide à comprendre les textes. Il ne remplace pas un conseil juridique.
 
 ## Prérequis
 
 - Python 3.11 ou plus récent
-- [Ollama](https://ollama.com) installé et lancé
+- [Ollama](https://ollama.com) installé et lancé, avec le modèle d'embeddings `bge-m3` (`ollama pull bge-m3`, 1,2 Go)
 
 ## Installation (Windows, PowerShell)
 
@@ -40,6 +40,18 @@ Le fichier `.env` contient votre configuration locale (adresse d'Ollama, modèle
 Chaque article devient un morceau de texte (**chunk**). Un article trop long (plus de 4 000 caractères) est découpé par paragraphe, par définition ou par point, et chaque morceau rappelle le règlement, l'article et son titre. Chaque chunk garde aussi ses métadonnées : règlement, article ou annexe, titre, chapitre, paragraphe, lien EUR-Lex vers l'article et date de version.
 
 Les textes viennent de [Cellar](https://op.europa.eu/fr/web/cellar), le dépôt de l'Office des publications qui alimente EUR-Lex : EUR-Lex refuse les téléchargements faits par des scripts. Si le téléchargement échoue, le script explique comment enregistrer le fichier à la main depuis EUR-Lex.
+
+## Chercher dans les textes
+
+```powershell
+.venv\Scripts\python scripts\build_index.py                          # construit l'index (environ 7 min la première fois)
+.venv\Scripts\python scripts\search.py "Dois-je désigner un DPO ?"   # affiche les 5 passages les plus proches
+.venv\Scripts\python scripts\evaluate_retrieval.py                   # mesure la qualité sur eval\questions_v0.jsonl
+```
+
+Chaque chunk est transformé en vecteur (**embedding**) par le modèle `bge-m3`, via Ollama, puis rangé dans une base [Chroma](https://www.trychroma.com) locale (`data/index/`). Une question est transformée de la même façon : les passages dont le vecteur est le plus proche (similarité cosinus) sont affichés avec leur score et leur lien EUR-Lex. L'index n'est recalculé que si `chunks.jsonl` ou le modèle changent. Le modèle et le matériel utilisé (carte graphique ou processeur) se règlent dans `.env`.
+
+`evaluate_retrieval.py` pose les 10 questions de `eval/questions_v0.jsonl` et indique, pour chacune, le rang du premier article attendu, puis le **hit@1** (l'article attendu arrive en premier) et le **hit@5** (il est dans les 5 premiers passages).
 
 ## Sources juridiques
 
