@@ -10,6 +10,7 @@ L'auteur débute en programmation : Claude écrit le code, l'auteur valide. Tout
 
 - Windows 11, Python 3.13.2, Git 2.48, Ollama 0.40.7
 - 16 Go de RAM, NVIDIA GTX 1650 avec **4 Go de VRAM** → le modèle de génération doit peser au plus ~3 Go (quantifié Q4), contexte limité à ~8K tokens.
+- **VRAM** : `bge-m3` (1,2 Go) + `ministral-3:3b` (3,0 Go) dépassent ensemble les 4 Go. À l'étape RAG, tester les embeddings sur le CPU (option Ollama `num_gpu=0`) pour laisser la carte graphique au modèle de génération.
 
 ## Choix techniques
 
@@ -38,6 +39,7 @@ scripts/                  scripts lancés à la main (check_env.py, …)
 tests/                    tests pytest (hors ligne : ils ne demandent pas Ollama)
 data/raw/                 textes sources téléchargés (ignoré par Git)
 data/processed/           articles découpés, index (ignoré par Git)
+eval/                     questions-tests d'évaluation (versionné, contrairement à data/)
 ```
 
 ## Commandes utiles (PowerShell, depuis la racine du dépôt)
