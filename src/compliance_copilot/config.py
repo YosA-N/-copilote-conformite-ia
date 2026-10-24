@@ -24,6 +24,15 @@ class Settings:
     embedding_model: str
     index_embedding_device: str = "gpu"  # "gpu" or "cpu", used to build the index
     query_embedding_device: str = "cpu"  # used for questions, to leave the GPU to the language model
+    llm_num_ctx: int = 8192  # context size in tokens: passages + question + answer
+    llm_num_gpu: int | None = 99  # model layers on the GPU (99 = all); None lets Ollama decide
+    llm_temperature: float = 0.1
+    llm_max_tokens: int = 700
+
+
+def optional_int(value: str | None) -> int | None:
+    """'' or None → None; '20' → 20."""
+    return int(value) if value and value.strip() else None
 
 
 def load_settings() -> Settings:
@@ -35,4 +44,8 @@ def load_settings() -> Settings:
         embedding_model=os.getenv("EMBEDDING_MODEL", DEFAULT_EMBEDDING_MODEL),
         index_embedding_device=os.getenv("INDEX_EMBEDDING_DEVICE", "gpu").strip().lower(),
         query_embedding_device=os.getenv("QUERY_EMBEDDING_DEVICE", "cpu").strip().lower(),
+        llm_num_ctx=int(os.getenv("LLM_NUM_CTX", "8192")),
+        llm_num_gpu=optional_int(os.getenv("LLM_NUM_GPU", "99")),
+        llm_temperature=float(os.getenv("LLM_TEMPERATURE", "0.1")),
+        llm_max_tokens=int(os.getenv("LLM_MAX_TOKENS", "700")),
     )

@@ -9,6 +9,8 @@ from pathlib import Path
 import pytest
 
 from compliance_copilot.corpus import build_chunks
+from compliance_copilot.index import build_index
+from compliance_copilot.llm import Generation
 from compliance_copilot.sources import SOURCES
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -38,6 +40,25 @@ class FakeEmbedder:
         return vectors
 
 
+class FakeChatModel:
+    """Writes a fixed answer, in pieces of 3 characters, like a streamed model would."""
+
+    def __init__(self, reply: str = "Oui [1].", truncated: bool = False, num_ctx: int = 8192, max_tokens: int = 700):
+        self.model = "fake-llm"
+        self.reply = reply
+        self.truncated = truncated
+        self.num_ctx = num_ctx
+        self.max_tokens = max_tokens
+        self.messages: list[dict] = []  # what the model received, to check the prompt
+
+    def generate(self, messages, on_text=None) -> Generation:
+        self.messages = messages
+        for start in range(0, len(self.reply), 3):
+            if on_text:
+                on_text(self.reply[start : start + 3])
+        return Generation(self.reply, prompt_tokens=100, completion_tokens=10, seconds=0.5, tokens_per_second=20.0, truncated=self.truncated)
+
+
 @pytest.fixture
 def fake_embedder() -> FakeEmbedder:
     return FakeEmbedder()
@@ -57,4 +78,12 @@ def chunks_file(tmp_path) -> Path:
         lines.extend(json.dumps(chunk.to_dict(), ensure_ascii=False) for chunk in chunks)
     path = tmp_path / "chunks.jsonl"
     path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    return path
+
+
+@pytest.fixture
+def index_dir(chunks_file, tmp_path, fake_embedder) -> Path:
+    """A temporary Chroma index of the 6 chunks, built with the fake embedding model."""
+    path = tmp_path / "index"
+    build_index(chunks_file, path, fake_embedder)
     return path

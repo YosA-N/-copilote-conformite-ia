@@ -1,0 +1,2 @@
+{"id": "h01", "question": "Quel est le taux de TVA en France ?", "expected": [], "related": [], "coverage": "hors corpus", "note": "Hors sujet : la fiscalité n'est pas dans le corpus ; le copilote doit dire que les passages ne permettent pas de répondre."}
+{"id": "h02", "question": "Comment faire une déclaration d'impôts ?", "expected": [], "related": [], "coverage": "hors corpus", "note": "Hors sujet : la fiscalité n'est pas dans le corpus ; le copilote doit dire que les passages ne permettent pas de répondre."}
