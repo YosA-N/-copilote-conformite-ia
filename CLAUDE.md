@@ -19,6 +19,7 @@ L'auteur débute en programmation : Claude écrit le code, l'auteur valide. Tout
   - Versions consolidées figées dans `src/compliance_copilot/sources.py` : RGPD du 04/05/2016 (99 articles), AI Act du 27/07/2026 (intègre 2026/1744 : 119 articles, 14 annexes). Pas de considérants.
   - Téléchargement par **Cellar** (`publications.europa.eu/resource/celex/…`) : EUR-Lex renvoie un défi anti-robot aux scripts, ne pas chercher à le contourner.
   - Mention de source EUR-Lex obligatoire (CC BY 4.0) : voir le README.
+  - Taille des chunks : 4 000 caractères au plus (~1 000 tokens, `MAX_CHUNK_CHARS` dans `corpus.py`). C'est un point de départ : des morceaux plus petits seront testés à l'étape d'évaluation.
 - **Embeddings** : modèle open source multilingue, en local (servi par Ollama). Par défaut : `bge-m3`.
 - **Base vectorielle** : locale (Chroma).
 - **Génération** : petit modèle via Ollama, derrière une **interface interchangeable** : changer de modèle = modifier une ligne dans `.env`. Par défaut : `ministral-3:3b`.
@@ -33,6 +34,7 @@ L'auteur débute en programmation : Claude écrit le code, l'auteur valide. Tout
 4. **Accord préalable** : ne rien télécharger (modèles Ollama, gros fichiers) et ne rien pousser (`git push`) sur GitHub sans l'accord de l'auteur.
 5. **Explications** : après chaque étape, expliquer en 3 à 5 phrases simples ce qui a été fait et pourquoi, en donnant les termes techniques anglais (par exemple « environnement virtuel (**virtual environment**) »).
 6. **Méthode** : présenter un plan et attendre la validation avant les changements importants. Travailler sur une branche, pas directement sur `main`.
+7. **Relecture** : ne jamais fusionner une Pull Request avant que l'auteur confirme l'avoir relue. Après l'ouverture d'une PR, s'arrêter et attendre cette confirmation.
 
 ## Structure
 
