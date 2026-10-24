@@ -13,6 +13,8 @@ DEFAULT_EMBEDDING_MODEL = "bge-m3"
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 RAW_DIR = PROJECT_ROOT / "data" / "raw"
 PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
+INDEX_DIR = PROJECT_ROOT / "data" / "index"
+EVAL_DIR = PROJECT_ROOT / "eval"
 
 
 @dataclass(frozen=True)
@@ -20,6 +22,8 @@ class Settings:
     ollama_base_url: str
     llm_model: str
     embedding_model: str
+    index_embedding_device: str = "gpu"  # "gpu" or "cpu", used to build the index
+    query_embedding_device: str = "cpu"  # used for questions, to leave the GPU to the language model
 
 
 def load_settings() -> Settings:
@@ -29,4 +33,6 @@ def load_settings() -> Settings:
         ollama_base_url=os.getenv("OLLAMA_BASE_URL", DEFAULT_OLLAMA_BASE_URL).rstrip("/"),
         llm_model=os.getenv("LLM_MODEL", DEFAULT_LLM_MODEL),
         embedding_model=os.getenv("EMBEDDING_MODEL", DEFAULT_EMBEDDING_MODEL),
+        index_embedding_device=os.getenv("INDEX_EMBEDDING_DEVICE", "gpu").strip().lower(),
+        query_embedding_device=os.getenv("QUERY_EMBEDDING_DEVICE", "cpu").strip().lower(),
     )
