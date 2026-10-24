@@ -14,8 +14,8 @@ Assistant open source qui répond **en français** aux questions des PME et des 
 ## Installation (Windows, PowerShell)
 
 ```powershell
-git clone https://github.com/YosA-N/-copilote-conformite-ia.git
-cd .\-copilote-conformite-ia
+git clone https://github.com/YosA-N/copilote-conformite-ia.git
+cd copilote-conformite-ia
 python -m venv .venv
 .venv\Scripts\python -m pip install -r requirements.txt
 copy .env.example .env

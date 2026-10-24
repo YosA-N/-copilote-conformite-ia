@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-USER_AGENT = "compliance-copilot/0.1 (+https://github.com/YosA-N/-copilote-conformite-ia)"
+USER_AGENT = "compliance-copilot/0.1 (+https://github.com/YosA-N/copilote-conformite-ia)"
 
 
 @dataclass(frozen=True)
