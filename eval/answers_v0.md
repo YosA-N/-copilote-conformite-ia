@@ -1,5 +1,7 @@
 # Réponses du copilote — v0
 
+> ⚠️ **Attention : certaines réponses de ce fichier sont fausses.** Ce sont les réponses brutes d'une version expérimentale du copilote, conservées telles quelles pour mesurer ses erreurs. Ne les utilisez pas comme information juridique : reportez-vous aux textes officiels sur EUR-Lex et, en cas de doute, à un professionnel ou à la CNIL.
+
 Générées le 24/10/2026 à 22:40 par `scripts/answer_questions.py`, **sans aucune retouche**, pour relecture.
 
 - Génération : `ministral-3:3b` via Ollama 0.40.10 — température 0.1, contexte 8192 tokens, couches sur la carte graphique : toutes, 700 tokens au plus par réponse
