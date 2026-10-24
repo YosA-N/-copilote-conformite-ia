@@ -16,6 +16,9 @@ L'auteur débute en programmation : Claude écrit le code, l'auteur valide. Tout
 
 - **Langage** : Python (paquet `src/compliance_copilot/`).
 - **Corpus** : RGPD (règlement (UE) 2016/679), AI Act (règlement (UE) 2024/1689) et quelques fiches CNIL. Découpage (**chunking**) **par article**.
+  - Versions consolidées figées dans `src/compliance_copilot/sources.py` : RGPD du 04/05/2016 (99 articles), AI Act du 27/07/2026 (intègre 2026/1744 : 119 articles, 14 annexes). Pas de considérants.
+  - Téléchargement par **Cellar** (`publications.europa.eu/resource/celex/…`) : EUR-Lex renvoie un défi anti-robot aux scripts, ne pas chercher à le contourner.
+  - Mention de source EUR-Lex obligatoire (CC BY 4.0) : voir le README.
 - **Embeddings** : modèle open source multilingue, en local (servi par Ollama). Par défaut : `bge-m3`.
 - **Base vectorielle** : locale (Chroma).
 - **Génération** : petit modèle via Ollama, derrière une **interface interchangeable** : changer de modèle = modifier une ligne dans `.env`. Par défaut : `ministral-3:3b`.
@@ -49,6 +52,8 @@ python -m venv .venv                                   # créer l'environnement 
 .venv\Scripts\python -m pip install -r requirements.txt  # installer les dépendances
 copy .env.example .env                                 # créer sa configuration locale
 .venv\Scripts\python scripts\check_env.py              # vérifier Python et Ollama
+.venv\Scripts\python scripts\download_sources.py       # télécharger les textes (une seule fois)
+.venv\Scripts\python scripts\build_corpus.py           # découper les textes en chunks
 .venv\Scripts\python -m pytest                         # lancer les tests
 ```
 

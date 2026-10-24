@@ -2,12 +2,17 @@
 
 import os
 from dataclasses import dataclass
+from pathlib import Path
 
 from dotenv import load_dotenv
 
 DEFAULT_OLLAMA_BASE_URL = "http://localhost:11434"
 DEFAULT_LLM_MODEL = "ministral-3:3b"
 DEFAULT_EMBEDDING_MODEL = "bge-m3"
+
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+RAW_DIR = PROJECT_ROOT / "data" / "raw"
+PROCESSED_DIR = PROJECT_ROOT / "data" / "processed"
 
 
 @dataclass(frozen=True)
