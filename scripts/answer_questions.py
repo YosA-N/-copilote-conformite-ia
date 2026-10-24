@@ -22,6 +22,12 @@ from compliance_copilot.sources import SOURCES
 
 QUESTION_FILES = ["questions_v0.jsonl", "questions_offtopic_v0.jsonl"]
 OUTPUT = EVAL_DIR / "answers_v0.md"
+WARNING = (
+    "> ⚠️ **Attention : certaines réponses de ce fichier sont fausses.** Ce sont les réponses brutes d'une version "
+    "expérimentale du copilote, conservées telles quelles pour mesurer ses erreurs. Ne les utilisez pas comme "
+    "information juridique : reportez-vous aux textes officiels sur EUR-Lex et, en cas de doute, à un professionnel "
+    "ou à la CNIL."
+)
 
 
 def ollama_version(base_url: str) -> str:
@@ -95,6 +101,8 @@ def main() -> int:
     gpu = "toutes" if settings.llm_num_gpu and settings.llm_num_gpu >= 99 else settings.llm_num_gpu or "choix d'Ollama"
     header = [
         "# Réponses du copilote — v0",
+        "",
+        WARNING,
         "",
         f"Générées le {datetime.now():%d/%m/%Y à %H:%M} par `scripts/answer_questions.py`, **sans aucune retouche**, pour relecture.",
         "",
